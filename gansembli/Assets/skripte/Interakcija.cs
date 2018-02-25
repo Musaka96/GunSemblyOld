@@ -7,7 +7,7 @@ public class Interakcija : MonoBehaviour {
     public static bool Triggered { get; set; }
     public bool isTable;
 
-    private Item holdingItem;
+    public Item holdingItem;
     public Item currentCollidedItem;
 
     public GameObject zaSpawn;
@@ -78,6 +78,7 @@ public class Interakcija : MonoBehaviour {
                     {
                         table.SpawnObject(currentItem);
                         currentItem = null;
+                        holdingItem = null;
                         
                         Item item = GetComponentInChildren<Item>();
                         Destroy(item.gameObject);
@@ -109,7 +110,6 @@ public class Interakcija : MonoBehaviour {
 
         Vector3 spawn_object_position = this.gameObject.transform.Find("SpawnPoint").gameObject.transform.position;
         Instantiate(itemObject, spawn_object_position, Quaternion.identity, this.gameObject.transform);
-
     }
     /// <summary>
     /// Takes item from parameter, and spawns it in hands, maybe do an animation soon?

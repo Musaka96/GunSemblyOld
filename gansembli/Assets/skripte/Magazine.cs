@@ -14,6 +14,11 @@ public class Magazine : Item {
 	// Use this for initialization
 	void Start () {
         item = GetComponentInParent<Item>();
+        if(item)
+        {
+            item.currentItemHasBar = true;
+        }
+
 	}
 	
 	// Update is called once per frame
@@ -43,5 +48,12 @@ public class Magazine : Item {
             complete = false;
             progressBar.fillAmount = 0;
         }
+
+        // bar rotation stuff
+        progressBar.transform.parent.parent.eulerAngles = new Vector3(
+            Camera.main.transform.eulerAngles.x,
+            Camera.main.transform.gameObject.transform.eulerAngles.y,
+            transform.eulerAngles.z);
+
 	}
 }

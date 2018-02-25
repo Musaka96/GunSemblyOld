@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class SimpleCharacterControl : MonoBehaviour {
 
@@ -41,9 +42,8 @@ public class SimpleCharacterControl : MonoBehaviour {
     private bool canWork = true;
     public bool isWorking = false;
 
-
-
-
+    public Image progressBar;
+    private bool itemHasProgressbar;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -102,7 +102,20 @@ public class SimpleCharacterControl : MonoBehaviour {
         Interakcija skripta = GetComponentInChildren<Interakcija>();
         m_animator.SetBool("Grounded", m_isGrounded);
 
-        switch(m_controlMode)
+
+        //progress barr stuff
+        if (skripta.holdingItem && skripta.holdingItem.currentItemHasBar)
+        {
+            progressBar.transform.parent.parent.eulerAngles = new Vector3(
+                Camera.main.transform.eulerAngles.x,
+                Camera.main.transform.gameObject.transform.eulerAngles.y,
+                transform.eulerAngles.z);
+        } else
+        {
+            //progressBar.GetComponentsInChildren<Image>
+        }
+
+        switch (m_controlMode)
         {
             case ControlMode.Direct:
                 DirectUpdate();

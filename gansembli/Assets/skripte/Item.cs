@@ -17,6 +17,7 @@ public class Item : MonoBehaviour {
     public bool canHaveMagazine;
     public float secPerPercent = 0;
     private IEnumerator workCoroutine;
+    public bool currentItemHasBar;
 
     void Start ()
     {
