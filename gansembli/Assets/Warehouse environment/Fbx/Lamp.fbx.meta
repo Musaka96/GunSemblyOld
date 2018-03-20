@@ -4,8 +4,34 @@ timeCreated: 18446744011573954816
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
+    100000: Camera
+    100002: //RootNode
+    100004: Lamp_01
+    100006: Light
+    400000: Camera
+    400002: //RootNode
+    400004: Lamp_01
+    400006: Light
+    2300000: Lamp_01
+    3300000: Lamp_01
     4300000: Lamp_01
-  externalObjects: {}
+    11100000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Light_bulb
+    second: {fileID: 2100000, guid: 424ff49d12e85ab448b82492713ad578, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lamp
+    second: {fileID: 2100000, guid: cbde56f76c3c6054a8979f80e1466908, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wire
+    second: {fileID: 2100000, guid: 7e2080641d05d6f49b9154576e0db98b, type: 2}
   materials:
     importMaterials: 1
     materialName: 2

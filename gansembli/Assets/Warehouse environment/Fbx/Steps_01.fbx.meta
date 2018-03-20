@@ -4,8 +4,34 @@ timeCreated: 18446744011573954816
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
+    100000: Camera
+    100002: Light
+    100004: //RootNode
+    100006: Steps_01_1
+    400000: Camera
+    400002: Light
+    400004: //RootNode
+    400006: Steps_01_1
+    2300000: Steps_01_1
+    3300000: Steps_01_1
     4300000: Steps_01_1
-  externalObjects: {}
+    11100000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Barrier_metal
+    second: {fileID: 2100000, guid: a5ecf07bc9c12dd4d9f8beeb8914430c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: sides
+    second: {fileID: 2100000, guid: a5ecf07bc9c12dd4d9f8beeb8914430c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: steps
+    second: {fileID: 2100000, guid: a5ecf07bc9c12dd4d9f8beeb8914430c, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

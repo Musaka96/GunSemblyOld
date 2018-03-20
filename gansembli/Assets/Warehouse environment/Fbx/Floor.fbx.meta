@@ -4,8 +4,24 @@ timeCreated: 18446744011573954816
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
+    100000: Camera
+    100002: //RootNode
+    100004: Floor_01
+    100006: Light
+    400000: Camera
+    400002: //RootNode
+    400004: Floor_01
+    400006: Light
+    2300000: Floor_01
+    3300000: Floor_01
     4300000: Floor_01
-  externalObjects: {}
+    11100000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Floor_01_surf
+    second: {fileID: 2100000, guid: 1ee6e5578bf0f844c958b72962693be1, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

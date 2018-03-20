@@ -4,8 +4,24 @@ timeCreated: 18446744011573954816
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
+    100000: Camera
+    100002: Light
+    100004: //RootNode
+    100006: Pallet_01
+    400000: Camera
+    400002: Light
+    400004: //RootNode
+    400006: Pallet_01
+    2300000: Pallet_01
+    3300000: Pallet_01
     4300000: Pallet_01
-  externalObjects: {}
+    11100000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pallet_01_surf
+    second: {fileID: 2100000, guid: 778c8a01562242341b8922705fdb3a83, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

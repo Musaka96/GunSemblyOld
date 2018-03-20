@@ -4,8 +4,24 @@ timeCreated: 18446744011573954816
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
+    100000: Camera
+    100002: Light
+    100004: //RootNode
+    100006: pipe_02
+    400000: Camera
+    400002: Light
+    400004: //RootNode
+    400006: pipe_02
+    2300000: pipe_02
+    3300000: pipe_02
     4300000: pipe_02
-  externalObjects: {}
+    11100000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Default_1
+    second: {fileID: 2100000, guid: fe85a893a7aa8a64991dbead1fa7e6b3, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

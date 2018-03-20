@@ -4,8 +4,30 @@ timeCreated: 18446744011573954816
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
+    100000: Camera
+    100002: //RootNode
+    100004: catwalk_01_1
+    100006: Light
+    400000: Camera
+    400002: //RootNode
+    400004: catwalk_01_1
+    400006: Light
+    2300000: catwalk_01_1
+    3300000: catwalk_01_1
     4300000: catwalk_01_1
-  externalObjects: {}
+    6400000: catwalk_01_1
+    11100000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Catwalk_metal
+    second: {fileID: 2100000, guid: 402367be3cc22e84ebfc54f5d12b90d2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mesh
+    second: {fileID: 2100000, guid: 750d2444d391d8c459f9fcb5c4ae5d3a, type: 2}
   materials:
     importMaterials: 1
     materialName: 2
