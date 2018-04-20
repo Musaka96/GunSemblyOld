@@ -43,8 +43,6 @@ public class Table : InteractableElement {
         Destroy(item.gameObject);
         isOccupied = false;
         return currentObject;
-
-        
     }
 
     public void IsTriggered(bool isTriggered)

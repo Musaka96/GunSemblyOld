@@ -104,16 +104,10 @@ public class SimpleCharacterControl : MonoBehaviour {
 
 
         //progress barr stuff
-        if (skripta.holdingItem && skripta.holdingItem.currentItemHasBar)
-        {
-            progressBar.transform.parent.parent.eulerAngles = new Vector3(
-                Camera.main.transform.eulerAngles.x,
-                Camera.main.transform.gameObject.transform.eulerAngles.y,
-                transform.eulerAngles.z);
-        } else
-        {
-            //progressBar.GetComponentsInChildren<Image>
-        }
+        progressBar.transform.parent.parent.eulerAngles = new Vector3(
+             Camera.main.transform.eulerAngles.x,
+             Camera.main.transform.gameObject.transform.eulerAngles.y,
+             transform.eulerAngles.z);
 
         switch (m_controlMode)
         {
@@ -133,7 +127,7 @@ public class SimpleCharacterControl : MonoBehaviour {
         m_wasGrounded = m_isGrounded;
         if (Input.GetKey(KeyCode.E))
         {
-            if (Interakcija.Triggered && canInteract)
+            if (Interakcija._triggered && canInteract)
             {
                 skripta.Interact();
                 canInteract = false;
@@ -146,8 +140,9 @@ public class SimpleCharacterControl : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.R))
         {
-            if (Interakcija.Triggered && canWork)
+            if (Interakcija._triggered && canWork)
             {
+                print("zove work na interakciju");
                 skripta.Work();
                 canWork = false;
                 isWorking = true;
@@ -155,7 +150,7 @@ public class SimpleCharacterControl : MonoBehaviour {
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
-            if (Interakcija.Triggered && !canWork)
+            if (Interakcija._triggered && !canWork)
             {
                 skripta.stopWork();
                 canWork = true;

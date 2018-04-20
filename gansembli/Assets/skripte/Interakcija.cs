@@ -4,26 +4,27 @@ using UnityEngine;
 
 public class Interakcija : MonoBehaviour {
     public static string objectTag { get; set; }
-    public static bool Triggered { get; set; }
-    public bool isTable;
+    public static bool _triggered { get; set; }
+    public bool is_table;
 
-    public Item holdingItem;
-    public Item currentCollidedItem;
+    public Item _holding_item;
+    public Item _current_collided_item;
 
-    public GameObject zaSpawn;
-    public GameObject currentItem;
-    public GameObject currentCollidedObject;
+    //public GameObject zaSpawn;
+    public GameObject _current_item;
+    public GameObject _current_collided_object;
 
     public ObjectColor glowObject;
     public SimpleCharacterControl characterController;
+    private Machine _curr_machine;
 
     // Use this for initialization
     void Start () {
         characterController = GetComponentInParent<SimpleCharacterControl>();
-        if (currentItem)
+        if (_current_item)
         {
             GameObject spawn_object = this.gameObject.transform.Find("SpawnPoint").gameObject;
-            Instantiate(currentItem, spawn_object.transform.position, Quaternion.identity, this.gameObject.transform);
+            Instantiate(_current_item, spawn_object.transform.position, Quaternion.identity, this.gameObject.transform);
         }
     }
 	
@@ -34,14 +35,16 @@ public class Interakcija : MonoBehaviour {
 
     void OnTriggerEnter(Collider collidedObject)
     {
-        if (collidedObject.GetComponent<InteractableElement>() && !Triggered)
+        if (collidedObject.GetComponent<InteractableElement>() && !_triggered)
         {
-            Triggered = true;
+            _triggered = true;
 
-            currentCollidedObject = collidedObject.gameObject;
-            currentCollidedItem = currentCollidedObject.GetComponentInChildren<Item>();
+            _current_collided_object = collidedObject.gameObject;
+            _current_collided_item = _current_collided_object.GetComponentInChildren<Item>();
+            _curr_machine = _current_collided_object.GetComponentInChildren<Machine>();
+            print(_curr_machine);
 
-            glowObject = currentCollidedObject.GetComponentInChildren<ObjectColor>();
+            glowObject = _current_collided_object.GetComponentInChildren<ObjectColor>();
             if (glowObject)
             {
                 glowObject.GlowOnInteract();
@@ -50,42 +53,42 @@ public class Interakcija : MonoBehaviour {
     }
     private void OnTriggerExit(Collider other)
     {
-        Triggered = false;
-        if (currentCollidedObject && currentCollidedObject.GetComponent<InteractableElement>().Type == "Table")
-            currentCollidedObject.GetComponentInChildren<ObjectColor>().StopInteractGlow();
+        _triggered = false;
+        if (_current_collided_object && _current_collided_object.GetComponent<InteractableElement>().Type == "Table")
+            _current_collided_object.GetComponentInChildren<ObjectColor>().StopInteractGlow();
 
         // if the character was working on something
         if (characterController.isWorking)
         {
             stopWork();
         }
-        currentCollidedObject = null;
-        currentCollidedItem = null;
+        _current_collided_object = null;
+        _current_collided_item = null;
     }
 
     public void Interact()
     {
-        InteractableElement skript = currentCollidedObject.GetComponent<InteractableElement>();
+        InteractableElement skript = _current_collided_object.GetComponent<InteractableElement>();
         if (skript)
         {
             if(skript.Type == "Table")
             {
-                Table table = currentCollidedObject.GetComponent<Table>();
+                Table table = _current_collided_object.GetComponent<Table>();
                 if(!table.isOccupied)
                 {
                     //leave item
-                    if (currentItem)
+                    if (_current_item)
                     {
-                        table.SpawnObject(currentItem);
-                        currentItem = null;
-                        holdingItem = null;
+                        table.SpawnObject(_current_item);
+                        _current_item = null;
+                        _holding_item = null;
                         
                         Item item = GetComponentInChildren<Item>();
                         Destroy(item.gameObject);
                     }
                 } else {
                     //take item
-                    if (!currentItem)
+                    if (!_current_item)
                     {
                         takeItem(table.TakeObject());
                     }
@@ -93,10 +96,28 @@ public class Interakcija : MonoBehaviour {
             }
             if(skript.Type == "spawn")
             {
-                ItemSpawn spawn = currentCollidedObject.GetComponent<ItemSpawn>();
-                if (spawn.canSpawn && !currentItem)
+                ItemSpawn spawn = _current_collided_object.GetComponent<ItemSpawn>();
+                if (spawn._canSpawn && !_current_item)
                 {
                     takeItem(spawn.getItem());
+                }
+            }
+
+            //Machine
+            if (_curr_machine)
+            {
+                if (!_curr_machine.is_occupied)
+                {
+                    _curr_machine.PutItem(_holding_item.gameObject);
+                    _current_item = null;
+                    _holding_item = null;
+                        
+                    Item item = GetComponentInChildren<Item>();
+                    Destroy(item.gameObject);
+
+                } else
+                {
+                    takeItem(_curr_machine.RemoveItem());
                 }
             }
         }
@@ -105,8 +126,8 @@ public class Interakcija : MonoBehaviour {
     private void takeItem(GameObject itemObject)
     {
         print("take item");
-        currentItem = itemObject;
-        holdingItem = itemObject.GetComponent<Item>();
+        _current_item = itemObject;
+        _holding_item = itemObject.GetComponent<Item>();
 
         Vector3 spawn_object_position = this.gameObject.transform.Find("SpawnPoint").gameObject.transform.position;
         Instantiate(itemObject, spawn_object_position, Quaternion.identity, this.gameObject.transform);
@@ -117,34 +138,43 @@ public class Interakcija : MonoBehaviour {
     /// <param name="item"></param>
     private void takeItem(Item item)
     {
-        currentItem = item.gameObject;
-        holdingItem = item;
+        _current_item = item.gameObject;
+        _holding_item = item;
 
         Vector3 spawn_object_position = this.gameObject.transform.Find("SpawnPoint").gameObject.transform.position;
-        Instantiate(currentItem, spawn_object_position, Quaternion.identity, this.gameObject.transform);
+        Instantiate(_current_item, spawn_object_position, Quaternion.identity, this.gameObject.transform);
 
     }
 
     public void Work()
     {
-            print("work interakcija");
-            if (currentCollidedItem && !currentCollidedItem.complete)
-            {
-                print("zove work interakcija");
-                currentCollidedItem.Work();
-            }
+        // Machine
+        if(_curr_machine && _curr_machine.is_occupied)
+        {
+            _curr_machine.Operate();
+        }
+
+        if (_current_collided_item && !_current_collided_item.complete)
+        {
+            _current_collided_item.Work();
+        }
     }
+
     public void stopWork()
     {
-            if (currentCollidedItem && !currentCollidedItem.complete)
-            {
-                currentCollidedItem.stopWork();
-            }
+        if(_curr_machine && _curr_machine.is_occupied)
+        {
+            //_curr_machine.ProcessStart();
+        }
+        if (_current_collided_item && !_current_collided_item.complete)
+        {
+            _current_collided_item.stopWork();
+        }
     }
 
 
     public bool getTriggered()
     {
-        return Triggered;
+        return _triggered;
     }
 }

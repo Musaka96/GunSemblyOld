@@ -4,37 +4,31 @@ using UnityEngine;
 
 public class Item : MonoBehaviour {
 
-    public string itemName;
+    public string item_name;
     public bool complete;
-    public bool canHide;
+    public bool can_hide;
 
-    public int percentComplete;
+    public int percent_complete;
 
     public int level; //1-3 ?
     public int levelLimit;
 
     public bool canHaveAmmo;
     public bool canHaveMagazine;
-    public float secPerPercent = 0;
+    public float secPerPercent = 0.1f;
     private IEnumerator workCoroutine;
     public bool currentItemHasBar;
 
     void Start ()
     {
-        // if its forgotten to set 
-        // set default of 0.1 sec
-        if (secPerPercent == 0) {
-            secPerPercent = 0.1f;
-        }
-
         workCoroutine = PerformWorking(secPerPercent);
-        percentComplete = 0;
+        percent_complete = 0;
         complete = false;
     }
 
     void Update()
     {
-        if (percentComplete == 100)
+        if (percent_complete == 100)
         {
             complete = true;
         }
@@ -57,7 +51,7 @@ public class Item : MonoBehaviour {
             if (!complete)
             {
                 print("percent++");
-                percentComplete = percentComplete + 1;
+                percent_complete = percent_complete + 1;
                 yield return new WaitForSeconds(timeToTick);
             }
             else

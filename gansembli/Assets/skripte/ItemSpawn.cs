@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ItemSpawn : InteractableElement {
 
-    public Item item;
+    public GameObject item;
     // maybe get blocket it item is put on top
-    public bool canSpawn;
+    public bool _canSpawn;
 
 	// Use this for initialization
 	void Start () {
-        canSpawn = true;
+        _canSpawn = true;
         Type = "spawn";
 	}
 	
@@ -19,9 +19,10 @@ public class ItemSpawn : InteractableElement {
 		
 	}
 
-    public Item getItem()
+    public GameObject getItem()
     {
         //animation 
+        Instantiate(item);
         return item;
 
     }
