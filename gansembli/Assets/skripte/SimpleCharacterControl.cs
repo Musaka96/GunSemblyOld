@@ -12,6 +12,8 @@ public class SimpleCharacterControl : MonoBehaviour
     [SerializeField] private Rigidbody m_rigidBody;
     [SerializeField] private Object projectile;
 
+    public GameObject arrowSpawnObject;
+
     //[SerializeField] private ControlMode m_controlMode = ControlMode.Direct;
 
     private float m_currentV = 0;
@@ -28,6 +30,10 @@ public class SimpleCharacterControl : MonoBehaviour
     private bool can_double_jump;
     private float m_jumpTimeStamp = 0;
     private float m_minJumpInterval = 0.25f;
+
+    // Shooting
+    private float minFireTimeStamp = 0;
+    private float minFireInterval = 0.25f;
     private bool m_isGrounded;
 
     private bool m_wasGrounded;
@@ -179,8 +185,19 @@ public class SimpleCharacterControl : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            GameObject bullet = Instantiate(projectile, m_rigidBody.transform.position + m_rigidBody.transform.forward * 4, Quaternion.identity) as GameObject;
-            bullet.GetComponent<Rigidbody>().AddForce(m_rigidBody.transform.forward * 1000);
+            fire();
+        }
+    }
+
+    private void fire()
+    {
+        bool fireCooldownOver = (Time.time - minFireTimeStamp) >= minFireInterval;
+
+        if (fireCooldownOver)
+        {
+            minFireTimeStamp = Time.time;
+            GameObject bullet = Instantiate(projectile, arrowSpawnObject.transform.position, Camera.main.transform.rotation) as GameObject;
+            bullet.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 1000);
         }
 
     }
@@ -229,33 +246,6 @@ public class SimpleCharacterControl : MonoBehaviour
     {
 
     }
-
-    //private void TankUpdate()
-    //{
-    //    float v = Input.GetAxis("Vertical");
-    //    float h = Input.GetAxis("Horizontal");
-
-    //    bool walk = Input.GetKey(KeyCode.LeftShift);
-
-    //    if (v < 0) {
-    //        if (walk) { v *= m_backwardsWalkScale; }
-    //        else { v *= m_backwardRunScale; }
-    //    } else if(walk)
-    //    {
-    //        v *= m_walkScale;
-    //    }
-
-    //    m_currentV = Mathf.Lerp(m_currentV, v, Time.deltaTime * m_interpolation);
-    //    m_currentH = Mathf.Lerp(m_currentH, h, Time.deltaTime * m_interpolation);
-
-    //    transform.position += transform.forward * m_currentV * m_moveSpeed * Time.deltaTime;
-    //    transform.Rotate(0, m_currentH * m_turnSpeed * Time.deltaTime, 0);
-
-    //    m_animator.SetFloat("MoveSpeed", m_currentV);
-
-    //    JumpingAndLanding();
-
-    //}
 
     private void MovementUpdate()
     {
