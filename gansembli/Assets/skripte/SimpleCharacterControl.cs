@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class SimpleCharacterControl : MonoBehaviour
 {
-
     [SerializeField] private float m_moveSpeed = 2;
     [SerializeField] private float m_turnSpeed = 200;
     [SerializeField] private float m_jumpForce = 4;
@@ -26,6 +25,7 @@ public class SimpleCharacterControl : MonoBehaviour
 
     //   Jumping
     private bool shift_mod;
+
     private bool double_jumped;
     private bool can_double_jump;
     private float m_jumpTimeStamp = 0;
@@ -33,6 +33,7 @@ public class SimpleCharacterControl : MonoBehaviour
 
     // Shooting
     private float minFireTimeStamp = 0;
+
     private float minFireInterval = 0.25f;
     private bool m_isGrounded;
 
@@ -51,7 +52,7 @@ public class SimpleCharacterControl : MonoBehaviour
     public Image progressBar;
     private bool itemHasProgressbar;
 
-    void Start()
+    private void Start()
     {
         shift_mod = false;
     }
@@ -112,21 +113,23 @@ public class SimpleCharacterControl : MonoBehaviour
         if (m_collisions.Count == 0) { m_isGrounded = false; }
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         MovementUpdate();
+    }
+
+    private void Update()
+    {
         JumpingAndLandingUpdate();
 
         Interakcija skripta = GetComponentInChildren<Interakcija>();
         m_animator.SetBool("Grounded", m_isGrounded);
-
 
         //progress barr stuff
         progressBar.transform.parent.parent.eulerAngles = new Vector3(
              Camera.main.transform.eulerAngles.x,
              Camera.main.transform.gameObject.transform.eulerAngles.y,
              transform.eulerAngles.z);
-
 
         m_wasGrounded = m_isGrounded;
 
@@ -199,7 +202,6 @@ public class SimpleCharacterControl : MonoBehaviour
             GameObject bullet = Instantiate(projectile, arrowSpawnObject.transform.position, Camera.main.transform.rotation) as GameObject;
             bullet.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 1000);
         }
-
     }
 
     private void jump()
@@ -219,7 +221,7 @@ public class SimpleCharacterControl : MonoBehaviour
             if (jumpCooldownOver)
             {
                 m_jumpTimeStamp = Time.time;
-                m_rigidBody.velocity = new Vector3(0,0,0);
+                m_rigidBody.velocity = new Vector3(0, 0, 0);
                 m_rigidBody.AddForce(Vector3.up * m_jumpForce, ForceMode.Impulse);
                 //m_rigidBody.useGravity = true;
             }
@@ -234,17 +236,14 @@ public class SimpleCharacterControl : MonoBehaviour
     {
         m_isGrounded = true;
         double_jumped = false;
-
     }
 
     private void onGroundedStay()
     {
-
     }
 
     private void Interact()
     {
-
     }
 
     private void MovementUpdate()
@@ -269,11 +268,15 @@ public class SimpleCharacterControl : MonoBehaviour
         direction.y = 0;
         direction = direction.normalized * directionLength;
 
+        // Follow the camera Y directon
+        transform.rotation = Quaternion.LookRotation(camera.forward);
+        // Reset rotation on the x and z axis
+        transform.rotation = Quaternion.Euler(new Vector3(0, transform.rotation.eulerAngles.y, 0));
+
         if (direction != Vector3.zero)
         {
             m_currentDirection = Vector3.Slerp(m_currentDirection, direction, Time.deltaTime * m_interpolation);
 
-            transform.rotation = Quaternion.LookRotation(m_currentDirection);
             transform.position += m_currentDirection * m_moveSpeed * Time.deltaTime;
 
             m_animator.SetFloat("MoveSpeed", direction.magnitude);
@@ -282,7 +285,6 @@ public class SimpleCharacterControl : MonoBehaviour
 
     private void JumpingAndLandingUpdate()
     {
-
         if (!m_wasGrounded && m_isGrounded)
         {
             m_animator.SetTrigger("Land");
@@ -293,5 +295,4 @@ public class SimpleCharacterControl : MonoBehaviour
             m_animator.SetTrigger("Jump");
         }
     }
-
 }
